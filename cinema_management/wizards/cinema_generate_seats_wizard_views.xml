@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cinema_generate_seats_wizard_form" model="ir.ui.view">
+        <field name="name">cinema.generate.seats.wizard.form</field>
+        <field name="model">cinema.generate.seats.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Studio Seats">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Select a letter row range (e.g. A to J) and a seat number range (e.g. 1 to 9).
+                        The system will automatically generate combinations such as A1..A9, B1..B9, etc.
+                    </div>
+                    <group>
+                        <group string="Target Studio">
+                            <field name="hall_id" readonly="1"/>
+                            <field name="seat_type"/>
+                            <field name="mode" widget="radio"/>
+                        </group>
+                        <group string="Seat Range">
+                            <label for="row_from" string="Row Range (Letters)"/>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2 fw-semibold">From</span>
+                                <field name="row_from" class="oe_inline"/>
+                                <span class="mx-2 fw-semibold">To</span>
+                                <field name="row_to" class="oe_inline"/>
+                            </div>
+
+                            <label for="number_from" string="Seat Number Range"/>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2 fw-semibold">From</span>
+                                <field name="number_from" class="oe_inline"/>
+                                <span class="mx-2 fw-semibold">To</span>
+                                <field name="number_to" class="oe_inline"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_seats" string="Generate Seats Now" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

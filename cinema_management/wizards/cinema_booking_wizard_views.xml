@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cinema_booking_wizard_form" model="ir.ui.view">
+        <field name="name">cinema.booking.wizard.form</field>
+        <field name="model">cinema.booking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Book Cinema Tickets">
+                <sheet>
+                    <div class="row align-items-center mb-3 p-3 bg-light rounded border">
+                        <div class="col-md-7">
+                            <h3 class="fw-bold mb-1">
+                                <field name="movie_id" readonly="1" class="text-primary"/>
+                            </h3>
+                            <div class="text-muted">
+                                <span><i class="fa fa-film me-1"/> Studio: <field name="hall_id" readonly="1" class="fw-bold text-dark"/></span>
+                                <span class="ms-3"><i class="fa fa-tag me-1"/> Price: <strong class="text-success"><field name="price" widget="monetary"/></strong> / ticket</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-md-end">
+                            <div class="fs-5 fw-bold">
+                                Tickets: <span class="badge bg-primary fs-6"><field name="seat_count"/></span>
+                            </div>
+                            <div class="fs-5 fw-bold text-success mt-1">
+                                Total: <field name="total_amount" widget="monetary"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <group>
+                        <field name="partner_id" string="Customer / Audience" options="{'no_quick_create': True}"/>
+                    </group>
+
+                    <!-- Interactive Seat Map -->
+                    <div class="mb-4">
+                        <field name="seat_map_html" widget="html" readonly="1" nolabel="1"/>
+                    </div>
+
+                    <!-- Seat Selection Grid -->
+                    <notebook>
+                        <page string="Select Desired Seats">
+                            <field name="line_ids">
+                                <list editable="bottom" create="0" delete="0" 
+                                      decoration-muted="is_booked == True" 
+                                      decoration-bf="is_selected == True" 
+                                      decoration-info="is_selected == True">
+                                    <field name="is_selected" string="SELECT SEAT" widget="boolean_toggle" readonly="is_booked == True"/>
+                                    <field name="seat_name" string="Seat No" readonly="1" class="fw-bold fs-6"/>
+                                    <field name="row" string="Row" readonly="1"/>
+                                    <field name="number" string="Number" readonly="1"/>
+                                    <field name="seat_type" string="Seat Type" readonly="1"/>
+                                    <field name="is_booked" string="Sold Status" readonly="1" widget="badge" 
+                                           decoration-danger="is_booked == True" 
+                                           decoration-success="is_booked == False"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_booking" string="Confirm &amp; Issue Invoice" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

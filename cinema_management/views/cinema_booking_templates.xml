@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template 1: Katalog Pemilihan Jadwal Tayang & Film (cinema.showtime) -->
+    <template id="booking_select_movie" name="Pemesanan Tiket - Pilih Jadwal Tayang">
+        <html lang="id">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>Cinema Box Office - Pilih Jadwal Tayang</title>
+                <!-- Fonts & Libraries -->
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+                <style>
+                <![CDATA[
+                    :root {
+                        --bg-base: #090d16;
+                        --bg-surface: #0f172a;
+                        --bg-card: #1e293b;
+                        --bg-card-hover: #243247;
+                        --primary: #38bdf8;
+                        --accent-gold: #f59e0b;
+                        --accent-green: #10b981;
+                        --border-color: #334155;
+                        --text-main: #f8fafc;
+                        --text-muted: #94a3b8;
+                    }
+                    * { box-sizing: border-box; }
+                    body {
+                        background-color: var(--bg-base);
+                        background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #090d16 75%);
+                        color: var(--text-main);
+                        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+                        min-height: 100vh;
+                        margin: 0;
+                    }
+                    .navbar-box-office {
+                        background: rgba(15, 23, 42, 0.9);
+                        backdrop-filter: blur(12px);
+                        border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+                        padding: 16px 0;
+                        position: sticky;
+                        top: 0;
+                        z-index: 100;
+                    }
+                    .brand-title {
+                        font-weight: 800;
+                        font-size: 22px;
+                        letter-spacing: 1px;
+                        margin: 0;
+                        color: white;
+                    }
+                    .badge-system {
+                        font-size: 11px;
+                        padding: 3px 8px;
+                        border-radius: 6px;
+                        background: rgba(56, 189, 248, 0.15);
+                        color: #38bdf8;
+                        border: 1px solid rgba(56, 189, 248, 0.3);
+                        font-weight: 700;
+                        text-transform: uppercase;
+                    }
+                    .search-input {
+                        background: rgba(30, 41, 59, 0.8);
+                        border: 1px solid var(--border-color);
+                        color: white;
+                        border-radius: 12px;
+                        padding: 12px 18px 12px 42px;
+                        transition: all 0.2s;
+                    }
+                    .search-input:focus {
+                        background: #1e293b;
+                        border-color: var(--primary);
+                        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+                        color: white;
+                    }
+                    .showtime-card {
+                        background: var(--bg-card);
+                        border: 1px solid var(--border-color);
+                        border-radius: 20px;
+                        overflow: hidden;
+                        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                    }
+                    .showtime-card:hover {
+                        transform: translateY(-6px);
+                        border-color: var(--primary);
+                        box-shadow: 0 16px 36px rgba(56, 189, 248, 0.2);
+                        background: var(--bg-card-hover);
+                    }
+                    .poster-wrap {
+                        height: 320px;
+                        background: #0b1120;
+                        position: relative;
+                        overflow: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .poster-img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.4s ease;
+                    }
+                    .showtime-card:hover .poster-img {
+                        transform: scale(1.05);
+                    }
+                    .poster-gradient {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 100px;
+                        background: linear-gradient(to top, var(--bg-card), transparent);
+                    }
+                    .rating-pill {
+                        position: absolute;
+                        top: 14px;
+                        right: 14px;
+                        padding: 5px 12px;
+                        border-radius: 8px;
+                        font-size: 11px;
+                        font-weight: 800;
+                        backdrop-filter: blur(8px);
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+                    }
+                    .rate-SU { background: rgba(16, 185, 129, 0.9); color: white; }
+                    .rate-13 { background: rgba(59, 130, 246, 0.9); color: white; }
+                    .rate-17 { background: rgba(245, 158, 11, 0.9); color: white; }
+                    .rate-21 { background: rgba(239, 68, 68, 0.9); color: white; }
+
+                    .hall-badge {
+                        position: absolute;
+                        top: 14px;
+                        left: 14px;
+                        background: rgba(15, 23, 42, 0.85);
+                        border: 1px solid rgba(56, 189, 248, 0.5);
+                        color: #38bdf8;
+                        padding: 5px 12px;
+                        border-radius: 8px;
+                        font-size: 12px;
+                        font-weight: 700;
+                        backdrop-filter: blur(8px);
+                    }
+                    .btn-book-seat {
+                        background: linear-gradient(135deg, #38bdf8, #0284c7);
+                        color: #090d16;
+                        font-weight: 800;
+                        padding: 12px 18px;
+                        border-radius: 12px;
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                        transition: all 0.25s ease;
+                        font-size: 14px;
+                        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+                    }
+                    .btn-book-seat:hover {
+                        color: #090d16;
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 22px rgba(56, 189, 248, 0.55);
+                    }
+                ]]>
+                </style>
+            </head>
+            <body>
+                <!-- Navbar Kiosk -->
+                <nav class="navbar-box-office">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="fs-2">🎬</span>
+                            <div>
+                                <h1 class="brand-title">CINEPLEX 20</h1>
+                                <span class="badge-system">Layar Pemesanan Tiket (Box Office Kiosk)</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/web" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                                <i class="fa fa-arrow-left me-1"></i> Kembali ke Odoo
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+                <main class="container my-5">
+                    <!-- Title Bar -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-3">
+                        <div>
+                            <span class="text-info fw-bold text-uppercase small" style="letter-spacing: 2px;">Data Jadwal Tayang Bioskop</span>
+                            <h2 class="fw-bold m-0 text-white display-6">Pilih Jadwal Tayang &amp; Kursi</h2>
+                        </div>
+                        <div class="position-relative" style="min-width: 280px;">
+                            <i class="fa fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+                            <input type="text" id="searchInput" class="form-control search-input" 
+                                   placeholder="Cari film atau studio..." onkeyup="filterCards()"/>
+                        </div>
+                    </div>
+
+                    <!-- Jika Tidak Ada Jadwal Tayang -->
+                    <t t-if="not showtimes">
+                        <div class="text-center py-5 my-5 bg-dark bg-opacity-50 border border-secondary rounded-4">
+                            <i class="fa fa-calendar-times fa-4x mb-3 text-secondary opacity-50"></i>
+                            <h4 class="fw-bold">Belum Ada Jadwal Tayang (Showtime) yang Aktif</h4>
+                            <p class="text-secondary">Silakan buat Jadwal Tayang di menu Bioskop ➔ Jadwal Tayang.</p>
+                        </div>
+                    </t>
+
+                    <!-- Grid Jadwal Tayang (cinema.showtime) -->
+                    <div class="row g-4" id="showtimeGrid">
+                        <t t-foreach="showtimes" t-as="st">
+                            <div class="col-md-6 col-lg-4 showtime-card-col" 
+                                 t-att-data-search="(st.movie_id.name or '') + ' ' + (st.hall_id.name or '')">
+                                <div class="showtime-card">
+                                    <!-- Poster Film -->
+                                    <div class="poster-wrap">
+                                        <t t-if="st.movie_id.poster">
+                                            <img class="poster-img" t-att-src="'/web/image/cinema.movie/' + str(st.movie_id.id) + '/poster'" t-att-alt="st.movie_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="text-center p-4">
+                                                <i class="fa fa-film fa-4x text-secondary opacity-25 mb-2"></i>
+                                                <div class="text-secondary small">Poster Film</div>
+                                            </div>
+                                        </t>
+                                        <div class="poster-gradient"></div>
+                                        <span class="hall-badge"><i class="fa fa-door-open me-1"></i> <t t-out="st.hall_id.name"/></span>
+                                        <span t-attf-class="rating-pill rate-#{st.movie_id.age_rating or 'SU'}" t-out="st.movie_id.age_rating or 'SU'"/>
+                                    </div>
+
+                                    <!-- Detail Jadwal & Film -->
+                                    <div class="p-4 d-flex flex-column flex-grow-1">
+                                        <h4 class="fw-bold text-white mb-2" t-out="st.movie_id.name"/>
+                                        
+                                        <div class="d-flex align-items-center gap-2 mb-3 small text-secondary">
+                                            <span class="badge bg-secondary bg-opacity-25 text-white">
+                                                <i class="fa fa-clock text-info me-1"></i>
+                                                <t t-out="st.movie_id.duration_display or (str(st.movie_id.duration) + ' Menit')"/>
+                                            </span>
+                                            <span>•</span>
+                                            <span class="text-info"><t t-out="st.hall_id.hall_type.upper()"/></span>
+                                        </div>
+
+                                        <!-- Informasi Waktu & Kursi Tersedia -->
+                                        <div class="p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-50 rounded-3 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-secondary small"><i class="fa fa-calendar-alt text-info me-1"></i> Tanggal &amp; Jam:</span>
+                                                <strong class="text-white fs-6">
+                                                    <t t-out="st.start_time.strftime('%d/%m/%Y, %H:%M')"/> WIB
+                                                </strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-secondary small"><i class="fa fa-couch text-success me-1"></i> Kursi Studio:</span>
+                                                <span class="badge bg-success bg-opacity-25 text-success border border-success">
+                                                    <t t-out="len(st.hall_id.seat_ids) - len(st.booked_seat_ids)"/> / <t t-out="len(st.hall_id.seat_ids)"/> Tersedia
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-secondary small"><i class="fa fa-tag text-warning me-1"></i> Harga Tiket:</span>
+                                                <strong class="text-warning fs-5">Rp <t t-out="'{:,.0f}'.format(st.price)"/></strong>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tombol Aksi Langsung ke Denah Kursi -->
+                                        <div class="mt-auto">
+                                            <a t-attf-href="/cinema/booking/#{st.id}" class="btn-book-seat">
+                                                <i class="fa fa-chair"></i> Pilih Kursi Sekarang
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </main>
+
+                <script>
+                <![CDATA[
+                    function filterCards() {
+                        const q = document.getElementById('searchInput').value.toLowerCase().trim();
+                        const cards = document.querySelectorAll('.showtime-card-col');
+                        cards.forEach(card => {
+                            const val = (card.getAttribute('data-search') || '').toLowerCase();
+                            card.style.display = val.includes(q) ? 'block' : 'none';
+                        });
+                    }
+                ]]>
+                </script>
+            </body>
+        </html>
+    </template>
+
+    <!-- Template 2: Denah Kursi Interaktif (Interactive Cinema Seat Map) -->
+    <template id="booking_seat_selection" name="Pemesanan Tiket - Pemilihan Kursi">
+        <html lang="id">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>Pilih Kursi - <t t-out="showtime.movie_id.name"/></title>
+                <!-- Fonts & Libraries -->
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+                <style>
+                <![CDATA[
+                    :root {
+                        --bg-base: #090d16;
+                        --bg-surface: #0f172a;
+                        --bg-card: #1e293b;
+                        --primary: #38bdf8;
+                        --accent-gold: #f59e0b;
+                        --seat-available: #10b981;
+                        --seat-selected: #0284c7;
+                        --seat-booked: #ef4444;
+                        --border-color: #334155;
+                        --text-main: #f8fafc;
+                        --text-muted: #94a3b8;
+                    }
+                    * { box-sizing: border-box; }
+                    body {
+                        background-color: var(--bg-base);
+                        background-image: radial-gradient(circle at 50% 10%, #1e293b 0%, #090d16 80%);
+                        color: var(--text-main);
+                        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+                        min-height: 100vh;
+                        margin: 0;
+                    }
+                    .navbar-box-office {
+                        background: rgba(15, 23, 42, 0.9);
+                        backdrop-filter: blur(12px);
+                        border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+                        padding: 14px 0;
+                    }
+                    .screen-container {
+                        perspective: 600px;
+                        margin: 15px auto 40px auto;
+                        max-width: 680px;
+                        text-align: center;
+                    }
+                    .screen-curved {
+                        height: 20px;
+                        background: linear-gradient(180deg, #38bdf8 0%, rgba(56, 189, 248, 0.05) 100%);
+                        border-radius: 12px 12px 0 0;
+                        transform: rotateX(-20deg);
+                        box-shadow: 0 10px 35px rgba(56, 189, 248, 0.6);
+                        border-top: 2px solid #7dd3fc;
+                    }
+                    .screen-title {
+                        color: #94a3b8;
+                        font-size: 13px;
+                        font-weight: 800;
+                        letter-spacing: 5px;
+                        padding-top: 10px;
+                        text-transform: uppercase;
+                    }
+                    .hall-wrapper {
+                        background-color: var(--bg-surface);
+                        border: 1px solid var(--border-color);
+                        border-radius: 20px;
+                        padding: 35px 25px;
+                        text-align: center;
+                        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+                    }
+                    .seat-row {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        margin-bottom: 12px;
+                    }
+                    .row-label {
+                        width: 32px;
+                        font-weight: 800;
+                        color: #64748b;
+                        font-size: 14px;
+                        user-select: none;
+                    }
+                    .seat-btn {
+                        width: 46px;
+                        height: 40px;
+                        border-radius: 10px;
+                        font-size: 12px;
+                        font-weight: 800;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        user-select: none;
+                        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                        position: relative;
+                    }
+                    .seat-available {
+                        background: linear-gradient(145deg, #10b981, #059669);
+                        color: #ffffff;
+                        border: 1px solid #34d399;
+                    }
+                    .seat-available:hover {
+                        transform: translateY(-4px) scale(1.15);
+                        box-shadow: 0 8px 18px rgba(16, 185, 129, 0.5);
+                        border-color: #6ee7b7;
+                        z-index: 10;
+                    }
+                    .seat-selected {
+                        background: linear-gradient(145deg, #0284c7, #0369a1) !important;
+                        color: #ffffff !important;
+                        border: 2px solid #38bdf8 !important;
+                        box-shadow: 0 0 20px rgba(56, 189, 248, 0.9) !important;
+                        transform: translateY(-4px) scale(1.12);
+                    }
+                    .seat-booked {
+                        background: #334155 !important;
+                        border: 1px solid #475569 !important;
+                        color: #64748b !important;
+                        cursor: not-allowed;
+                        opacity: 0.5;
+                        box-shadow: none;
+                    }
+                    .order-sidebar {
+                        background: var(--bg-card);
+                        border: 1px solid var(--border-color);
+                        border-radius: 20px;
+                        padding: 28px;
+                        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+                        position: sticky;
+                        top: 95px;
+                    }
+                    .seat-badge-pill {
+                        background: rgba(2, 132, 199, 0.25);
+                        border: 1px solid #38bdf8;
+                        color: #7dd3fc;
+                        font-weight: 700;
+                        padding: 6px 12px;
+                        border-radius: 8px;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 13px;
+                    }
+                    .seat-badge-pill i {
+                        cursor: pointer;
+                        color: #94a3b8;
+                        transition: color 0.2s;
+                    }
+                    .seat-badge-pill i:hover {
+                        color: #f87171;
+                    }
+                    .btn-confirm-action {
+                        background: linear-gradient(135deg, #38bdf8, #0284c7);
+                        border: none;
+                        color: #090d16;
+                        font-weight: 800;
+                        padding: 16px;
+                        border-radius: 12px;
+                        width: 100%;
+                        font-size: 17px;
+                        transition: all 0.25s ease;
+                        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+                    }
+                    .btn-confirm-action:hover:not(:disabled) {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 28px rgba(56, 189, 248, 0.55);
+                        color: #090d16;
+                    }
+                    .btn-confirm-action:disabled {
+                        background: #334155;
+                        color: #64748b;
+                        box-shadow: none;
+                        cursor: not-allowed;
+                    }
+                ]]>
+                </style>
+            </head>
+            <body>
+                <!-- Header -->
+                <nav class="navbar-box-office">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/cinema/booking" class="btn btn-outline-info btn-sm rounded-pill px-3">
+                                <i class="fa fa-arrow-left me-1"></i> Pilih Jadwal Lain
+                            </a>
+                            <span class="fs-4 text-white fw-bold">🎬 Denah Kursi Bioskop</span>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary px-3 py-2 fs-6 rounded-pill">
+                                <i class="fa fa-door-open me-1"></i> <t t-out="showtime.hall_id.name"/>
+                            </span>
+                        </div>
+                    </div>
+                </nav>
+
+                <main class="container my-4">
+                    <div class="row g-4">
+                        <!-- Kolom Denah Bioskop Kiri -->
+                        <div class="col-lg-8">
+                            <div class="hall-wrapper">
+                                
+                                <!-- Layar Posisi TOP -->
+                                <t t-if="showtime.hall_id.screen_position == 'top'">
+                                    <div class="screen-container">
+                                        <div class="screen-curved"></div>
+                                        <div class="screen-title"><t t-out="showtime.hall_id.screen_label or '🎬 L A Y A R  B I O S K O P ( S C R E E N )'"/></div>
+                                    </div>
+                                </t>
+
+                                <!-- Legend Warna -->
+                                <div class="d-flex justify-content-center flex-wrap gap-4 mb-4 pb-3 border-bottom border-secondary border-opacity-50 small">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span style="display:inline-block; width:18px; height:18px; background:#10b981; border-radius:5px;"></span>
+                                        <span>Tersedia (Klik Kursi)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span style="display:inline-block; width:18px; height:18px; background:#0284c7; border:2px solid #38bdf8; border-radius:5px;"></span>
+                                        <span>Dipilih</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span style="display:inline-block; width:18px; height:18px; background:#334155; border:1px solid #475569; border-radius:5px; opacity:0.6;"></span>
+                                        <span>Terpesan / Terisi</span>
+                                    </div>
+                                </div>
+
+                                <!-- Grid Kursi Bioskop -->
+                                <div class="my-4" style="overflow-x: auto; padding: 10px 0;">
+                                    <t t-foreach="sorted_rows" t-as="row_item">
+                                        <t t-set="row_letter" t-value="row_item[0]"/>
+                                        <t t-set="row_seats" t-value="row_item[1]"/>
+                                        
+                                        <div class="seat-row">
+                                            <span class="row-label"><t t-out="row_letter"/></span>
+                                            <t t-foreach="row_seats" t-as="seat">
+                                                <t t-set="is_booked" t-value="seat.id in booked_seat_ids"/>
+                                                <t t-if="is_booked">
+                                                    <div class="seat-btn seat-booked" 
+                                                         t-att-title="'Kursi ' + (seat.name or '') + ' (Sudah Dipesan)'">
+                                                        <t t-out="seat.name"/>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="seat-btn seat-available" 
+                                                         t-att-data-seat-id="seat.id"
+                                                         t-att-data-seat-name="seat.name"
+                                                         t-att-title="'Pilih Kursi ' + (seat.name or '')"
+                                                         onclick="toggleSeat(this)">
+                                                        <t t-out="seat.name"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                            <span class="row-label"><t t-out="row_letter"/></span>
+                                        </div>
+                                    </t>
+                                </div>
+
+                                <!-- Layar Posisi BOTTOM -->
+                                <t t-if="showtime.hall_id.screen_position == 'bottom'">
+                                    <div class="screen-container mt-4">
+                                        <div class="screen-title pb-2"><t t-out="showtime.hall_id.screen_label or '🎬 L A Y A R  B I O S K O P ( S C R E E N )'"/></div>
+                                        <div class="screen-curved"></div>
+                                    </div>
+                                </t>
+
+                            </div>
+                        </div>
+
+                        <!-- Kolom Ringkasan Order Kanan -->
+                        <div class="col-lg-4">
+                            <div class="order-sidebar">
+                                <h4 class="fw-bold text-white mb-3 d-flex align-items-center gap-2">
+                                    <i class="fa fa-ticket-alt text-info"></i> Ringkasan Pesanan
+                                </h4>
+                                
+                                <!-- Detail Film -->
+                                <div class="p-3 bg-dark bg-opacity-75 rounded-3 mb-3 border border-secondary border-opacity-50">
+                                    <h5 class="fw-bold text-info mb-1"><t t-out="showtime.movie_id.name"/></h5>
+                                    <div class="text-secondary small mb-2">
+                                        <span><i class="fa fa-clock me-1 text-info"></i> <t t-out="showtime.movie_id.duration_display or (str(showtime.movie_id.duration) + ' Menit')"/></span>
+                                        <span class="mx-1">•</span>
+                                        <span><i class="fa fa-door-open me-1 text-info"></i> <t t-out="showtime.hall_id.name"/></span>
+                                    </div>
+                                    <div class="small text-white">
+                                        <div><strong>Jadwal:</strong> <t t-out="showtime.start_time.strftime('%d/%m/%Y, %H:%M')"/> WIB</div>
+                                        <div><strong>Harga Satuan:</strong> <span class="text-warning fw-bold">Rp <t t-out="'{:,.0f}'.format(showtime.price)"/></span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Input Nama Penonton -->
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary small fw-bold">NAMA PELANGGAN / PENONTON</label>
+                                    <input type="text" id="customerName" class="form-control bg-dark text-white border-secondary" 
+                                           value="Pelanggan Umum (Walk-in)" placeholder="Masukkan nama pelanggan..."/>
+                                </div>
+
+                                <!-- Pilihan Metode Pembayaran Bawaan Odoo -->
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary small fw-bold d-flex justify-content-between align-items-center">
+                                        <span>METODE PEMBAYARAN</span>
+                                        <span class="badge bg-success bg-opacity-25 text-success border border-success" style="font-size: 10px;">
+                                            <i class="fa fa-bolt me-1"/> Auto Lunas (Paid)
+                                        </span>
+                                    </label>
+                                    <select id="paymentJournalId" class="form-select bg-dark text-white border-secondary">
+                                        <t t-foreach="payment_journals" t-as="j">
+                                            <option t-att-value="j.id">
+                                                <t t-if="j.type == 'cash'">💵 Kas / Tunai - </t>
+                                                <t t-elif="j.type == 'bank'">💳 Bank / Transfer / QRIS - </t>
+                                                <t t-out="j.name"/> (<t t-out="j.code"/>)
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+
+                                <!-- List Kursi Terpilih -->
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary small fw-bold">KURSI YANG DIPILIH</label>
+                                    <div id="selectedSeatsContainer" class="d-flex flex-wrap gap-2 p-2 bg-dark bg-opacity-75 rounded-3 border border-secondary border-opacity-50" style="min-height: 55px;">
+                                        <span id="noSeatHint" class="text-secondary small fst-italic my-auto">Klik kursi warna hijau di denah untuk memilih.</span>
+                                    </div>
+                                </div>
+
+                                <!-- Total Harga -->
+                                <div class="border-top border-secondary border-opacity-50 pt-3 mb-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-secondary">Jumlah Tiket:</span>
+                                        <strong id="seatCountText" class="text-white fs-6">0 Kursi</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-secondary">Total Tagihan:</span>
+                                        <h3 id="totalAmountText" class="fw-bold text-warning m-0">Rp 0</h3>
+                                    </div>
+                                </div>
+
+                                <!-- Tombol Eksekusi -->
+                                <button id="btnConfirmBooking" class="btn btn-confirm-action" 
+                                        disabled="disabled" onclick="submitBooking()">
+                                    <i class="fa fa-check-circle me-2"></i> Konfirmasi &amp; Buat Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Modal Sukses Pemesanan & Invoice -->
+                <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white border-info shadow-lg" style="border-radius: 18px;">
+                            <div class="modal-header border-secondary border-opacity-50">
+                                <h5 class="modal-title text-info fw-bold"><i class="fa fa-check-circle me-2"></i> Pemesanan Tiket Berhasil!</h5>
+                            </div>
+                            <div class="modal-body text-center py-4 px-4">
+                                <div class="mb-3">
+                                    <i class="fa fa-receipt fa-4x text-success"></i>
+                                </div>
+                                <h4 id="successTitle" class="fw-bold">Invoice &amp; Tiket Telah Dibuat</h4>
+                                <p id="successDesc" class="text-secondary small">Customer invoice di account.move berhasil dibuat secara otomatis.</p>
+                                
+                                <div class="d-flex flex-column gap-2 mt-4">
+                                    <a id="btnOpenInvoice" href="#" target="_blank" class="btn btn-primary py-2 fw-bold rounded-pill">
+                                        <i class="fa fa-file-invoice-dollar me-2"></i> Buka Customer Invoice (Odoo)
+                                    </a>
+                                    <a id="btnPrintTickets" href="#" target="_blank" class="btn btn-warning py-2 fw-bold text-dark rounded-pill">
+                                        <i class="fa fa-print me-2"></i> Cetak Tiket Fisik (Slip)
+                                    </a>
+                                    <a href="/cinema/booking" class="btn btn-outline-light py-2 rounded-pill mt-2">
+                                        <i class="fa fa-plus me-2"></i> Pesan Tiket Lainnya
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scripts -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                <![CDATA[
+                    const SHOWTIME_ID = document.querySelector('input#customerName') ? ]]><t t-out="showtime.id"/><![CDATA[ : 0;
+                    const TICKET_PRICE = ]]><t t-out="showtime.price"/><![CDATA[;
+                    let selectedSeats = [];
+
+                    function formatRupiah(number) {
+                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(number);
+                    }
+
+                    function toggleSeat(elem) {
+                        const seatId = parseInt(elem.getAttribute('data-seat-id'));
+                        const seatName = elem.getAttribute('data-seat-name');
+
+                        const index = selectedSeats.findIndex(s => s.id === seatId);
+                        if (index > -1) {
+                            selectedSeats.splice(index, 1);
+                            elem.classList.remove('seat-selected');
+                            elem.classList.add('seat-available');
+                        } else {
+                            selectedSeats.push({ id: seatId, name: seatName });
+                            elem.classList.remove('seat-available');
+                            elem.classList.add('seat-selected');
+                        }
+                        updateSummary();
+                    }
+
+                    function removeSelectedSeat(seatId) {
+                        const elem = document.querySelector('.seat-btn[data-seat-id="' + seatId + '"]');
+                        if (elem) {
+                            toggleSeat(elem);
+                        }
+                    }
+
+                    function updateSummary() {
+                        const container = document.getElementById('selectedSeatsContainer');
+                        const seatCountText = document.getElementById('seatCountText');
+                        const totalAmountText = document.getElementById('totalAmountText');
+                        const btnConfirm = document.getElementById('btnConfirmBooking');
+
+                        container.innerHTML = '';
+
+                        if (selectedSeats.length === 0) {
+                            container.innerHTML = '<span id="noSeatHint" class="text-secondary small fst-italic my-auto">Klik kursi warna hijau di denah untuk memilih.</span>';
+                            seatCountText.innerText = '0 Kursi';
+                            totalAmountText.innerText = formatRupiah(0);
+                            btnConfirm.disabled = true;
+                        } else {
+                            selectedSeats.forEach(seat => {
+                                const badge = document.createElement('span');
+                                badge.className = 'seat-badge-pill';
+                                badge.innerHTML = 'Kursi ' + seat.name + ' <i class="fa fa-times" onclick="removeSelectedSeat(' + seat.id + ')" title="Batal pilih"></i>';
+                                container.appendChild(badge);
+                            });
+
+                            const count = selectedSeats.length;
+                            const total = count * TICKET_PRICE;
+                            seatCountText.innerText = count + ' Kursi';
+                            totalAmountText.innerText = formatRupiah(total);
+                            btnConfirm.disabled = false;
+                        }
+                    }
+
+                    async function submitBooking() {
+                        if (selectedSeats.length === 0) return;
+
+                        const customerName = document.getElementById('customerName').value.trim() || 'Pelanggan Umum (Walk-in)';
+                        const btnConfirm = document.getElementById('btnConfirmBooking');
+                        btnConfirm.disabled = true;
+                        btnConfirm.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Memproses Pesanan &amp; Invoice...';
+
+                        try {
+                            const response = await fetch('/cinema/booking/confirm', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    showtime_id: SHOWTIME_ID,
+                                    seat_ids: selectedSeats.map(s => s.id),
+                                    customer_name: customerName,
+                                    journal_id: document.getElementById('paymentJournalId') ? parseInt(document.getElementById('paymentJournalId').value) : null,
+                                })
+                            });
+
+                            const result = await response.json();
+                            if (result.status === 'success') {
+                                document.getElementById('successTitle').innerText = 'Invoice ' + (result.invoice_name || '') + ' Dibuat!';
+                                document.getElementById('successDesc').innerText = result.message;
+                                document.getElementById('btnOpenInvoice').href = result.invoice_url;
+                                document.getElementById('btnPrintTickets').href = result.ticket_print_url;
+
+                                const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                                modal.show();
+                            } else {
+                                alert('Gagal: ' + (result.message || 'Terjadi kesalahan sistem.'));
+                                btnConfirm.disabled = false;
+                                btnConfirm.innerHTML = '<i class="fa fa-check-circle me-2"></i> Konfirmasi &amp; Buat Invoice';
+                            }
+                        } catch (err) {
+                            alert('Terjadi kesalahan jaringan: ' + err.message);
+                            btnConfirm.disabled = false;
+                            btnConfirm.innerHTML = '<i class="fa fa-check-circle me-2"></i> Konfirmasi &amp; Buat Invoice';
+                        }
+                    }
+                ]]>
+                </script>
+            </body>
+        </html>
+    </template>
+</odoo>

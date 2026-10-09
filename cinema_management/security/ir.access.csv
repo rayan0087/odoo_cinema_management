@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_cinema_genre_user,cinema.genre.user,cinema.genre,base.group_user,crud,
+access_cinema_movie_user,cinema.movie.user,cinema.movie,base.group_user,crud,
+access_cinema_hall_user,cinema.hall.user,cinema.hall,base.group_user,crud,
+access_cinema_seat_user,cinema.seat.user,cinema.seat,base.group_user,crud,
+access_cinema_showtime_user,cinema.showtime.user,cinema.showtime,base.group_user,crud,
+access_cinema_ticket_user,cinema.ticket.user,cinema.ticket,base.group_user,crud,
+access_cinema_generate_seats_wizard_user,cinema.generate.seats.wizard.user,cinema.generate.seats.wizard,base.group_user,crud,
+access_cinema_booking_wizard_user,cinema.booking.wizard.user,cinema.booking.wizard,base.group_user,crud,
+access_cinema_booking_seat_line_user,cinema.booking.seat.line.user,cinema.booking.seat.line,base.group_user,crud,

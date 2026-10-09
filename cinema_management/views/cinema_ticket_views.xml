@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cinema_ticket_tree" model="ir.ui.view">
+        <field name="name">cinema.ticket.tree</field>
+        <field name="model">cinema.ticket</field>
+        <field name="arch" type="xml">
+            <list string="Cinema Tickets">
+                <field name="name"/>
+                <field name="movie_id"/>
+                <field name="hall_id"/>
+                <field name="showtime_id"/>
+                <field name="seat_name" string="Seat No"/>
+                <field name="partner_id"/>
+                <field name="price" widget="monetary"/>
+                <field name="invoice_id"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'valid'" 
+                       decoration-info="state == 'used'" 
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cinema_ticket_form" model="ir.ui.view">
+        <field name="name">cinema.ticket.form</field>
+        <field name="model">cinema.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Cinema Ticket">
+                <header>
+                    <button name="action_print_ticket" string="Print Physical Ticket" type="object" class="oe_highlight" />
+                    <button name="action_check_in" string="Gate Check-in" type="object" class="btn-success" invisible="state != 'valid'"/>
+                    <button name="action_cancel" string="Cancel Ticket" type="object" class="btn-danger" invisible="state != 'valid'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="valid,used,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Ticket Number"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Screening Details">
+                            <field name="showtime_id"/>
+                            <field name="movie_id"/>
+                            <field name="hall_id"/>
+                            <field name="seat_name" class="fw-bold fs-4 text-primary"/>
+                        </group>
+                        <group string="Transaction &amp; Payment">
+                            <field name="partner_id"/>
+                            <field name="price" widget="monetary"/>
+                            <field name="invoice_id"/>
+                            <field name="booking_time"/>
+                            <field name="barcode_token" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cinema_ticket" model="ir.actions.act_window">
+        <field name="name">Sold Tickets</field>
+        <field name="res_model">cinema.ticket</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

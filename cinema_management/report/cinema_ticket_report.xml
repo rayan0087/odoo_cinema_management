@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_cinema_ticket" model="ir.actions.report">
+        <field name="name">Print Cinema Ticket (Slip)</field>
+        <field name="model">cinema.ticket</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">cinema_management.report_cinema_ticket_template</field>
+        <field name="print_report_name">'Ticket_' + (object.name or 'Cinema')</field>
+        <field name="binding_model_id" ref="model_cinema_ticket"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_cinema_ticket_template">
+        <t t-call="base_print_slip.slip_master_layout">
+            <t t-set="paper_size" t-value="'80mm'"/>
+            <t t-set="document_title" t-value="'Cinema Ticket - ' + (docs[0].name if docs else '')"/>
+            <t t-set="show_toolbar" t-value="True"/>
+
+            <t t-foreach="docs" t-as="ticket">
+                <t t-call="base_print_slip.slip_header">
+                    <t t-set="company_title" t-value="'🎬 CINEPLEX 20'"/>
+                    <t t-set="company_subtitle" t-value="'Official Cinema Box Office Ticket'"/>
+                </t>
+
+                <t t-call="base_print_slip.slip_divider">
+                    <t t-set="divider_type" t-value="'double'"/>
+                </t>
+
+                <div style="text-align: center; margin-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 17px; font-weight: bold;" t-out="ticket.movie_id.name"/>
+                    <span style="display: inline-block; background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-top: 4px;" t-out="ticket.movie_id.age_rating"/>
+                </div>
+
+                <div class="slip-meta-grid" style="border-top: 1px dashed #777; border-bottom: 1px dashed #777; padding: 8px 0; margin-bottom: 12px;">
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Studio:'"/>
+                        <t t-set="value" t-value="ticket.hall_id.name"/>
+                    </t>
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Date:'"/>
+                        <t t-set="value" t-value="ticket.showtime_id.start_time.strftime('%d/%m/%Y') if ticket.showtime_id.start_time else ''"/>
+                    </t>
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Showtime:'"/>
+                        <t t-set="value" t-value="(ticket.showtime_id.start_time.strftime('%H:%M') + ' WIB') if ticket.showtime_id.start_time else ''"/>
+                    </t>
+                </div>
+
+                <!-- Highlight Seat Number -->
+                <div style="text-align: center; background: #f4f4f4; border: 2px solid #000; border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+                    <div style="font-size: 11px; font-weight: bold; color: #555;">SEAT NUMBER / KURSI</div>
+                    <div style="font-size: 34px; font-weight: bold; color: #000; letter-spacing: 3px;" t-out="ticket.seat_name"/>
+                </div>
+
+                <div class="slip-meta-grid" style="margin-bottom: 12px;">
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Ticket No:'"/>
+                        <t t-set="value" t-value="ticket.name"/>
+                    </t>
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Audience:'"/>
+                        <t t-set="value" t-value="ticket.partner_id.name"/>
+                    </t>
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Ticket Price:'"/>
+                        <t t-set="value" t-value="'Rp {:,.0f}'.format(ticket.price)"/>
+                    </t>
+                    <t t-call="base_print_slip.slip_meta_row">
+                        <t t-set="label" t-value="'Printed At:'"/>
+                        <t t-set="value" t-value="ticket.booking_time.strftime('%d/%m/%Y %H:%M') if ticket.booking_time else ''"/>
+                    </t>
+                </div>
+
+                <t t-call="base_print_slip.slip_divider">
+                    <t t-set="divider_type" t-value="'dashed'"/>
+                </t>
+
+                <!-- Barcode Token Area -->
+                <t t-call="base_print_slip.slip_barcode">
+                    <t t-set="barcode_value" t-value="ticket.barcode_token"/>
+                    <t t-set="barcode_note" t-value="'Please keep this ticket to scan at studio entrance.'"/>
+                </t>
+
+                <t t-call="base_print_slip.slip_footer">
+                    <t t-set="footer_text" t-value="'*** THANK YOU ***'"/>
+                    <t t-set="footer_subtext" t-value="'Enjoy Your Movie'"/>
+                </t>
+
+                <div class="slip-page-break" t-if="not ticket_last" style="margin-bottom: 24px; border-bottom: 2px dashed #999; padding-bottom: 16px;"/>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Master Genres -->
+        <record id="genre_action" model="cinema.genre">
+            <field name="name">Action</field>
+            <field name="color">1</field>
+        </record>
+        <record id="genre_adventure" model="cinema.genre">
+            <field name="name">Adventure</field>
+            <field name="color">2</field>
+        </record>
+        <record id="genre_comedy" model="cinema.genre">
+            <field name="name">Komedi</field>
+            <field name="color">3</field>
+        </record>
+        <record id="genre_drama" model="cinema.genre">
+            <field name="name">Drama</field>
+            <field name="color">4</field>
+        </record>
+        <record id="genre_horror" model="cinema.genre">
+            <field name="name">Horor</field>
+            <field name="color">5</field>
+        </record>
+        <record id="genre_scifi" model="cinema.genre">
+            <field name="name">Sci-Fi</field>
+            <field name="color">6</field>
+        </record>
+
+        <!-- Master Studio / Hall -->
+        <record id="hall_studio_1" model="cinema.hall">
+            <field name="name">Studio 1</field>
+            <field name="hall_type">regular</field>
+        </record>
+
+        <record id="hall_studio_premiere" model="cinema.hall">
+            <field name="name">Premiere Hall</field>
+            <field name="hall_type">premiere</field>
+        </record>
+
+        <!-- Kursi Studio 1 -->
+        <record id="seat_s1_a1" model="cinema.seat">
+            <field name="hall_id" ref="hall_studio_1"/>
+            <field name="row">A</field>
+            <field name="number">1</field>
+            <field name="seat_type">standard</field>
+        </record>
+        <record id="seat_s1_a2" model="cinema.seat">
+            <field name="hall_id" ref="hall_studio_1"/>
+            <field name="row">A</field>
+            <field name="number">2</field>
+            <field name="seat_type">standard</field>
+        </record>
+        <record id="seat_s1_a3" model="cinema.seat">
+            <field name="hall_id" ref="hall_studio_1"/>
+            <field name="row">A</field>
+            <field name="number">3</field>
+            <field name="seat_type">standard</field>
+        </record>
+
+        <!-- Sample Film 1: Now Playing -->
+        <record id="movie_agak_laen" model="cinema.movie">
+            <field name="name">Agak Laen: Bioskop Horor</field>
+            <field name="duration">119</field>
+            <field name="genre_ids" eval="[(6, 0, [ref('genre_comedy'), ref('genre_horror')])]"/>
+            <field name="director">Muhadkly Acho</field>
+            <field name="casts">Bene Dion, Boris Bokir, Indra Jegel, Oki Rengga</field>
+            <field name="synopsis">Empat sekawan penjaga rumah hantu pasar malam mencari cara mempertahankan wahana mereka dari kebangkrutan hingga sebuah insiden tak terduga terjadi.</field>
+            <field name="age_rating">13+</field>
+            <field name="state">now_playing</field>
+            <field name="release_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
+        </record>
+
+        <!-- Sample Film 2: Now Playing -->
+        <record id="movie_interstellar" model="cinema.movie">
+            <field name="name">Interstellar: Space Odyssey</field>
+            <field name="duration">169</field>
+            <field name="genre_ids" eval="[(6, 0, [ref('genre_scifi'), ref('genre_adventure'), ref('genre_drama')])]"/>
+            <field name="director">Christopher Nolan</field>
+            <field name="casts">Matthew McConaughey, Anne Hathaway, Jessica Chastain</field>
+            <field name="synopsis">Ketika Bumi tidak lagi mampu menopang kehidupan manusia, sekelompok penjelajah antariksa melakukan perjalanan melintasi wormhole demi kelangsungan umat manusia.</field>
+            <field name="age_rating">13+</field>
+            <field name="state">now_playing</field>
+            <field name="release_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
+        </record>
+
+        <!-- Sample Film 3: Coming Soon -->
+        <record id="movie_avatar_3" model="cinema.movie">
+            <field name="name">Avatar: Fire and Ash</field>
+            <field name="duration">180</field>
+            <field name="genre_ids" eval="[(6, 0, [ref('genre_scifi'), ref('genre_action'), ref('genre_adventure')])]"/>
+            <field name="director">James Cameron</field>
+            <field name="casts">Sam Worthington, Zoe Saldana</field>
+            <field name="synopsis">Petualangan Jake Sully dan Neytiri terus berlanjut di Pandora dengan ancaman dan klan baru Ash People.</field>
+            <field name="age_rating">13+</field>
+            <field name="state">coming_soon</field>
+        </record>
+
+        <!-- Sample Showtime Hari Ini (Future Hours) -->
+        <record id="showtime_demo_1" model="cinema.showtime">
+            <field name="movie_id" ref="movie_agak_laen"/>
+            <field name="hall_id" ref="hall_studio_1"/>
+            <field name="start_time" eval="(DateTime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="price">45000</field>
+            <field name="state">scheduled</field>
+        </record>
+
+        <record id="showtime_demo_2" model="cinema.showtime">
+            <field name="movie_id" ref="movie_interstellar"/>
+            <field name="hall_id" ref="hall_studio_premiere"/>
+            <field name="start_time" eval="(DateTime.now() + timedelta(hours=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="price">85000</field>
+            <field name="state">scheduled</field>
+        </record>
+    </data>
+</odoo>

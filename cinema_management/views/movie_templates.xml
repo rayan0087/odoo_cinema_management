@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="movie_list_page" name="Katalog Film Sedang Tayang">
+        <html lang="id">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>Now Playing - Film Sedang Tayang | Cineplex 20</title>
+
+                <!-- Fonts and Icons -->
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+                <style>
+                    :root {
+                        --bg-base: #090d16;
+                        --bg-surface: #0f172a;
+                        --bg-card: #1e293b;
+                        --bg-card-hover: #243247;
+                        --primary: #38bdf8;
+                        --primary-hover: #0284c7;
+                        --accent-gold: #f59e0b;
+                        --accent-green: #10b981;
+                        --border-color: #334155;
+                        --text-main: #f8fafc;
+                        --text-muted: #94a3b8;
+                    }
+
+                    * { box-sizing: border-box; }
+
+                    body {
+                        background-color: var(--bg-base);
+                        background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #090d16 80%);
+                        color: var(--text-main);
+                        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+                        min-height: 100vh;
+                        margin: 0;
+                    }
+
+                    /* --- Top Glassmorphism Navigation --- */
+                    .navbar-cineplex {
+                        background: rgba(15, 23, 42, 0.85);
+                        backdrop-filter: blur(14px);
+                        -webkit-backdrop-filter: blur(14px);
+                        border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+                        padding: 14px 0;
+                        position: sticky;
+                        top: 0;
+                        z-index: 1000;
+                    }
+
+                    .brand-title {
+                        font-weight: 800;
+                        font-size: 20px;
+                        letter-spacing: 0.5px;
+                        color: #ffffff;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                    .brand-tag {
+                        background: rgba(56, 189, 248, 0.15);
+                        color: var(--primary);
+                        border: 1px solid rgba(56, 189, 248, 0.3);
+                        font-size: 10px;
+                        font-weight: 700;
+                        padding: 3px 8px;
+                        border-radius: 9999px;
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                    }
+
+                    /* --- Header Banner --- */
+                    .hero-header {
+                        padding: 36px 0 20px 0;
+                    }
+
+                    .stat-chip {
+                        background: rgba(30, 41, 59, 0.7);
+                        border: 1px solid var(--border-color);
+                        padding: 6px 14px;
+                        border-radius: 9999px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #cbd5e1;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                    }
+
+                    /* --- Movie Cards --- */
+                    .movie-card {
+                        background: var(--bg-card);
+                        border: 1px solid var(--border-color);
+                        border-radius: 18px;
+                        overflow: hidden;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                    }
+
+                    .movie-card:hover {
+                        transform: translateY(-6px);
+                        border-color: var(--primary);
+                        box-shadow: 0 16px 36px rgba(56, 189, 248, 0.18);
+                        background: var(--bg-card-hover);
+                    }
+
+                    .poster-container {
+                        position: relative;
+                        height: 310px;
+                        background: #060911;
+                        overflow: hidden;
+                    }
+
+                    .poster-img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.4s ease;
+                    }
+
+                    .movie-card:hover .poster-img {
+                        transform: scale(1.05);
+                    }
+
+                    .poster-fallback {
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        color: #475569;
+                    }
+
+                    .poster-overlay {
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(15,23,42,0.85) 100%);
+                    }
+
+                    .age-badge {
+                        position: absolute;
+                        top: 12px;
+                        right: 12px;
+                        padding: 4px 9px;
+                        font-size: 11px;
+                        font-weight: 800;
+                        border-radius: 6px;
+                        z-index: 2;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+                    }
+
+                    .badge-SU { background: #10b981; color: #fff; }
+                    .badge-13 { background: #3b82f6; color: #fff; }
+                    .badge-17 { background: #f59e0b; color: #fff; }
+                    .badge-21 { background: #ef4444; color: #fff; }
+
+                    .genre-chip {
+                        position: absolute;
+                        bottom: 12px;
+                        left: 12px;
+                        background: rgba(15, 23, 42, 0.85);
+                        backdrop-filter: blur(6px);
+                        border: 1px solid rgba(255, 255, 255, 0.15);
+                        color: #e2e8f0;
+                        font-size: 11px;
+                        font-weight: 600;
+                        padding: 3px 8px;
+                        border-radius: 6px;
+                        z-index: 2;
+                    }
+
+                    .duration-chip {
+                        position: absolute;
+                        bottom: 12px;
+                        right: 12px;
+                        background: rgba(15, 23, 42, 0.85);
+                        backdrop-filter: blur(6px);
+                        border: 1px solid rgba(255, 255, 255, 0.15);
+                        color: var(--primary);
+                        font-size: 11px;
+                        font-weight: 600;
+                        padding: 3px 8px;
+                        border-radius: 6px;
+                        z-index: 2;
+                    }
+
+                    /* --- Card Content --- */
+                    .card-body-custom {
+                        padding: 16px;
+                        display: flex;
+                        flex-direction: column;
+                        flex-grow: 1;
+                    }
+
+                    .movie-title {
+                        font-size: 17px;
+                        font-weight: 700;
+                        color: #ffffff;
+                        margin-bottom: 6px;
+                        line-height: 1.3;
+                    }
+
+                    .movie-synopsis {
+                        font-size: 12px;
+                        color: var(--text-muted);
+                        line-height: 1.45;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        margin-bottom: 14px;
+                    }
+
+                    /* --- Showtime Section --- */
+                    .showtime-box {
+                        background: rgba(15, 23, 42, 0.6);
+                        border: 1px solid rgba(51, 65, 85, 0.7);
+                        border-radius: 12px;
+                        padding: 12px;
+                        margin-top: auto;
+                    }
+
+                    .showtime-box-title {
+                        font-size: 11px;
+                        font-weight: 700;
+                        color: #94a3b8;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        margin-bottom: 8px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .showtime-list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                    }
+
+                    .showtime-item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        background: #1e293b;
+                        border: 1px solid #334155;
+                        border-radius: 8px;
+                        padding: 7px 10px;
+                        text-decoration: none;
+                        color: #f8fafc;
+                        transition: all 0.2s ease;
+                    }
+
+                    .showtime-item:hover {
+                        background: #0284c7;
+                        border-color: #38bdf8;
+                        color: #ffffff;
+                        transform: translateX(2px);
+                    }
+
+                    .showtime-time {
+                        font-weight: 800;
+                        font-size: 13px;
+                        color: var(--primary);
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+
+                    .showtime-item:hover .showtime-time {
+                        color: #ffffff;
+                    }
+
+                    .showtime-hall {
+                        font-size: 11px;
+                        color: #cbd5e1;
+                    }
+
+                    .showtime-price {
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: var(--accent-gold);
+                    }
+
+                    .showtime-item:hover .showtime-price {
+                        color: #fef08a;
+                    }
+
+                    /* --- Empty State --- */
+                    .empty-box {
+                        background: var(--bg-card);
+                        border: 1px dashed var(--border-color);
+                        border-radius: 20px;
+                        padding: 60px 20px;
+                        text-align: center;
+                    }
+                </style>
+            </head>
+            <body>
+                <!-- Top Navbar -->
+                <nav class="navbar-cineplex">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <div class="brand-title">
+                            <i class="fa-solid fa-film text-info"></i>
+                            <span>CINEPLEX 20</span>
+                            <span class="brand-tag">Now Playing</span>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Main Content -->
+                <div class="container py-4">
+                    <!-- Hero / Header Stats -->
+                    <div class="hero-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom border-secondary pb-4 mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-1 text-white">
+                                🎬 Film yang Sedang Tayang
+                            </h2>
+                            <p class="text-secondary mb-0 small">
+                                Data jadwal penayangan aktif real-time dari sistem studio bioskop.
+                            </p>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="stat-chip">
+                                <i class="fa-solid fa-clapperboard text-info"></i>
+                                <span t-out="total_movies"/> Film Tayang
+                            </span>
+                            <span class="stat-chip">
+                                <i class="fa-solid fa-clock text-warning"></i>
+                                <span t-out="total_showtimes"/> Sesi Tayang
+                            </span>
+                            <span class="stat-chip">
+                                <i class="fa-solid fa-calendar-check text-success"></i>
+                                <span t-out="current_time.strftime('%d/%m/%Y %H:%M')"/> WIB
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Movie Grid (Data diambil dari cinema.showtime) -->
+                    <div class="row g-4" id="movieGrid" t-if="movies_list">
+                        <t t-foreach="movies_list" t-as="item">
+                            <t t-set="movie" t-value="item['movie']"/>
+                            <t t-set="st_list" t-value="item['showtimes']"/>
+
+                            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 movie-item-col">
+                                <div class="movie-card">
+                                    <!-- Poster Wrap -->
+                                    <div class="poster-container">
+                                        <t t-if="movie.poster">
+                                            <img t-att-src="'/web/image/cinema.movie/%s/poster' % movie.id" 
+                                                 class="poster-img" 
+                                                 t-att-alt="movie.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="poster-fallback">
+                                                <i class="fa-solid fa-clapperboard fa-3x mb-2 text-secondary"></i>
+                                                <span class="small text-secondary">No Poster</span>
+                                            </div>
+                                        </t>
+                                        <div class="poster-overlay"></div>
+
+                                        <!-- Age Badge -->
+                                        <span t-att-class="'age-badge ' + ('badge-SU' if movie.age_rating == 'SU' else 'badge-13' if movie.age_rating == '13+' else 'badge-17' if movie.age_rating == '17+' else 'badge-21')" t-out="movie.age_rating"/>
+
+                                        <!-- Genre Chip -->
+                                        <span class="genre-chip" t-if="movie.genre" t-out="movie.genre"/>
+
+                                        <!-- Duration Chip -->
+                                        <span class="duration-chip" t-if="movie.duration">
+                                            <i class="fa-regular fa-clock me-1"></i><t t-out="movie.duration"/>m
+                                        </span>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="card-body-custom">
+                                        <div class="movie-title text-truncate" t-att-title="movie.name" t-out="movie.name"/>
+                                        <div class="movie-synopsis" t-out="movie.synopsis or 'Sinopsis film belum tersedia.'"/>
+
+                                        <!-- Showtime List (Langsung dari cinema.showtime) -->
+                                        <div class="showtime-box">
+                                            <div class="showtime-box-title">
+                                                <span><i class="fa-regular fa-calendar-days me-1"></i>Jadwal Tayang:</span>
+                                                <span class="badge bg-primary" t-out="len(st_list)"/>
+                                            </div>
+                                            <div class="showtime-list">
+                                                <t t-foreach="st_list" t-as="st">
+                                                    <a t-att-href="'/cinema/booking/%s' % st.id" 
+                                                       class="showtime-item" 
+                                                       t-att-title="'Klik untuk memesan tiket kursi di ' + st.hall_id.name">
+                                                        <div class="showtime-time">
+                                                            <i class="fa-solid fa-play fa-2xs"></i>
+                                                            <t t-out="st.start_time.strftime('%H:%M')"/>
+                                                        </div>
+                                                        <div class="showtime-hall text-truncate" style="max-width: 100px;">
+                                                            <t t-out="st.hall_id.name"/>
+                                                        </div>
+                                                        <div class="showtime-price">
+                                                            Rp <t t-out="'{:,.0f}'.format(st.price)"/>
+                                                        </div>
+                                                    </a>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-box" t-if="not movies_list">
+                        <i class="fa-solid fa-film-slash fa-4x text-secondary mb-3"></i>
+                        <h4 class="fw-bold text-white mb-2">Tidak Ada Jadwal Film yang Sedang Tayang</h4>
+                        <p class="text-secondary small mb-4" style="max-width: 500px; margin: 0 auto;">
+                            Belum ada sesi penayangan aktif di model <code class="text-info">cinema.showtime</code>. Silakan buat atau jadwalkan sesi penayangan di menu backend Odoo.
+                        </p>
+                        <a href="/web#action=cinema_management.action_cinema_showtime" class="btn btn-outline-info rounded-pill px-4 btn-sm">
+                            <i class="fa-solid fa-calendar-plus me-1"></i>Buka Jadwal Tayang di Odoo
+                        </a>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

@@ -1,0 +1,554 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cinema_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-08 09:50:00+0000\n"
+"PO-Revision-Date: 2026-10-08 09:50:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Indonesian (Bahasa Indonesia)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id_ID\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_root
+msgid "Cinema"
+msgstr "Bioskop"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_movies
+#: model:ir.actions.act_window,name:cinema_management.action_cinema_movie
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_tree
+msgid "Movies"
+msgstr "Film"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_showtimes
+#: model:ir.actions.act_window,name:cinema_management.action_cinema_showtime
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_tree
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__showtime_ids
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Showtimes"
+msgstr "Jadwal Tayang"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_tickets
+#: model:ir.actions.act_window,name:cinema_management.action_cinema_ticket
+msgid "Sold Tickets"
+msgstr "Daftar Tiket Terjual"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_config
+msgid "Configuration"
+msgstr "Konfigurasi"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_halls
+#: model:ir.actions.act_window,name:cinema_management.action_cinema_hall
+msgid "Master Studios"
+msgstr "Master Studio"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_genres
+#: model:ir.actions.act_window,name:cinema_management.action_cinema_genre
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_genre_tree
+msgid "Movie Genres"
+msgstr "Genre Film"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_web_portal
+msgid "Web & Kiosk Services"
+msgstr "Layanan Web & Kiosk"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_now_playing_display
+#: model:ir.actions.act_url,name:cinema_management.action_cinema_movies_web_url
+msgid "Now Playing Display"
+msgstr "Display Film Sedang Tayang"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_kiosk
+#: model:ir.actions.act_url,name:cinema_management.action_cinema_kiosk_url
+msgid "Ticket Booking (Kiosk)"
+msgstr "Pemesanan Tiket (Kiosk)"
+
+#. module: cinema_management
+#: model:ir.ui.menu,name:cinema_management.menu_cinema_kiosk
+msgid "Cinema Ticket Booking (Kiosk)"
+msgstr "Pemesanan Tiket Bioskop (Kiosk)"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_movie
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Cinema Movie"
+msgstr "Film Bioskop"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__name
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Movie Title"
+msgstr "Judul Film"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__duration
+msgid "Duration (Minutes)"
+msgstr "Durasi (Menit)"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__duration_display
+msgid "Duration"
+msgstr "Durasi"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Movie Duration"
+msgstr "Durasi Film"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Minutes"
+msgstr "Menit"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__genre_ids
+msgid "Genres"
+msgstr "Genre"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__director
+msgid "Director"
+msgstr "Sutradara"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__casts
+msgid "Casts / Actors"
+msgstr "Pemeran / Casts"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__synopsis
+msgid "Synopsis"
+msgstr "Sinopsis"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__age_rating
+msgid "Age Rating"
+msgstr "Klasifikasi Usia"
+
+#. module: cinema_management
+#: selection:cinema.movie,age_rating:0
+msgid "General Audiences (SU)"
+msgstr "Semua Umur (SU)"
+
+#. module: cinema_management
+#: selection:cinema.movie,age_rating:0
+msgid "Teens (13+)"
+msgstr "Remaja (13+)"
+
+#. module: cinema_management
+#: selection:cinema.movie,age_rating:0
+msgid "Adults (17+)"
+msgstr "Dewasa (17+)"
+
+#. module: cinema_management
+#: selection:cinema.movie,age_rating:0
+msgid "Mature (21+)"
+msgstr "Dewasa Khusus (21+)"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__release_date
+msgid "Release Date"
+msgstr "Tanggal Rilis"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__end_date
+msgid "End Date"
+msgstr "Selesai Tayang"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_movie__state
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__state
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__state
+msgid "Status"
+msgstr "Status"
+
+#. module: cinema_management
+#: selection:cinema.movie,state:0
+msgid "Draft"
+msgstr "Draft"
+
+#. module: cinema_management
+#: selection:cinema.movie,state:0
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_search
+msgid "Now Playing"
+msgstr "Sedang Tayang"
+
+#. module: cinema_management
+#: selection:cinema.movie,state:0
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_search
+msgid "Coming Soon"
+msgstr "Segera Tayang"
+
+#. module: cinema_management
+#: selection:cinema.movie,state:0
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_search
+msgid "Archived"
+msgstr "Diarsipkan"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Set Now Playing"
+msgstr "Set Sedang Tayang"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Set Coming Soon"
+msgstr "Set Segera Tayang"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Archive"
+msgstr "Arsipkan"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Screening Information"
+msgstr "Informasi Tayang"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Release Period"
+msgstr "Periode Penayangan"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_movie_form
+msgid "Synopsis & Casts"
+msgstr "Sinopsis & Casts"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_hall
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Cinema Studio"
+msgstr "Studio Bioskop"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_hall
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_tree
+msgid "Studio / Cinema Hall"
+msgstr "Master Studio / Hall Bioskop"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__name
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Studio Name"
+msgstr "Nama Studio"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__hall_type
+msgid "Studio Type"
+msgstr "Tipe Studio"
+
+#. module: cinema_management
+#: selection:cinema.hall,hall_type:0
+msgid "Regular"
+msgstr "Reguler"
+
+#. module: cinema_management
+#: selection:cinema.hall,hall_type:0
+msgid "Premiere / VIP"
+msgstr "Premiere / VIP"
+
+#. module: cinema_management
+#: selection:cinema.hall,hall_type:0
+msgid "IMAX"
+msgstr "IMAX"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__screen_position
+msgid "Screen Position"
+msgstr "Posisi Layar"
+
+#. module: cinema_management
+#: selection:cinema.hall,screen_position:0
+msgid "Screen at Top (Front)"
+msgstr "Layar di Atas (Depan)"
+
+#. module: cinema_management
+#: selection:cinema.hall,screen_position:0
+msgid "Screen at Bottom (Back)"
+msgstr "Layar di Bawah (Belakang)"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__screen_label
+msgid "Screen Label"
+msgstr "Label Layar"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__total_seats
+msgid "Seat Capacity"
+msgstr "Kapasitas Kursi"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_hall__seat_ids
+msgid "Seats"
+msgstr "Daftar Kursi"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Studio Configuration"
+msgstr "Konfigurasi Studio"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Screen Configuration"
+msgstr "Konfigurasi Layar"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Studio Layout Preview"
+msgstr "Pratinjau Tata Letak Studio"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Seat Positions & List"
+msgstr "Pengaturan Posisi & Daftar Kursi"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_hall_form
+msgid "Generate Seats Automatically"
+msgstr "Generate Kursi Otomatis"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_showtime
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_form
+msgid "Movie Showtime"
+msgstr "Jadwal Tayang (Showtime)"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__name
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_form
+msgid "Schedule Reference"
+msgstr "Referensi Jadwal"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__movie_id
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__movie_id
+msgid "Movie"
+msgstr "Film"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__hall_id
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__hall_id
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_seat__hall_id
+msgid "Studio"
+msgstr "Studio"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__start_time
+msgid "Start Time"
+msgstr "Jam Mulai Tayang"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__cleaning_buffer
+msgid "Cleaning Buffer (Minutes)"
+msgstr "Jeda Bersih-bersih (Menit)"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__end_time
+msgid "Estimated End Time"
+msgstr "Estimasi Selesai"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__price
+msgid "Ticket Price (Rp)"
+msgstr "Harga Tiket (Rp)"
+
+#. module: cinema_management
+#: selection:cinema.showtime,state:0
+msgid "Scheduled"
+msgstr "Terjadwal"
+
+#. module: cinema_management
+#: selection:cinema.showtime,state:0
+msgid "Ongoing"
+msgstr "Sedang Berjalan"
+
+#. module: cinema_management
+#: selection:cinema.showtime,state:0
+msgid "Finished"
+msgstr "Selesai"
+
+#. module: cinema_management
+#: selection:cinema.showtime,state:0
+#: selection:cinema.ticket,state:0
+msgid "Cancelled"
+msgstr "Dibatalkan"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__ticket_ids
+msgid "Sold Tickets"
+msgstr "Daftar Tiket Terjual"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__booked_seats_count
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_tree
+msgid "Tickets Sold"
+msgstr "Tiket Terjual"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_showtime__invoice_count
+msgid "Invoices"
+msgstr "Invoice"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_form
+msgid "Book Ticket"
+msgstr "Pesan Tiket"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_form
+msgid "Movie & Studio"
+msgstr "Film & Studio"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_showtime_form
+msgid "Schedule & Timing"
+msgstr "Jadwal & Waktu"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_ticket
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Cinema Ticket"
+msgstr "Tiket Bioskop"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__name
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Ticket Number"
+msgstr "Nomor Tiket"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__showtime_id
+msgid "Showtime"
+msgstr "Jadwal Tayang"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__seat_id
+msgid "Seat"
+msgstr "Kursi"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__seat_name
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_seat__name
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_tree
+msgid "Seat No"
+msgstr "No Kursi"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__partner_id
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_booking_wizard_form
+msgid "Customer / Audience"
+msgstr "Pelanggan / Penonton"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__price
+msgid "Ticket Price"
+msgstr "Harga Tiket"
+
+#. module: cinema_management
+#: model:ir.model.fields,field_description:cinema_management.field_cinema_ticket__booking_time
+msgid "Booking Time"
+msgstr "Waktu Pemesanan"
+
+#. module: cinema_management
+#: selection:cinema.ticket,state:0
+msgid "Valid / Active"
+msgstr "Valid / Aktif"
+
+#. module: cinema_management
+#: selection:cinema.ticket,state:0
+msgid "Used (Check-in)"
+msgstr "Sudah Digunakan (Check-in)"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Print Physical Ticket"
+msgstr "Cetak Tiket Fisik"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Gate Check-in"
+msgstr "Check-in Pintu Masuk"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Cancel Ticket"
+msgstr "Batalkan Tiket"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Screening Details"
+msgstr "Detail Penayangan"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_ticket_form
+msgid "Transaction & Payment"
+msgstr "Transaksi & Pembayaran"
+
+#. module: cinema_management
+#: model:ir.actions.report,name:cinema_management.action_report_cinema_ticket
+msgid "Print Cinema Ticket (Slip)"
+msgstr "Cetak Tiket Bioskop (Slip)"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_generate_seats_wizard
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_generate_seats_wizard_form
+msgid "Generate Studio Seats"
+msgstr "Generate Kursi Studio"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_generate_seats_wizard_form
+msgid "Generate Seats Now"
+msgstr "Generate Kursi Sekarang"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_generate_seats_wizard_form
+msgid "Row Range (Letters)"
+msgstr "Rentang Baris (Abjad)"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_generate_seats_wizard_form
+msgid "Seat Number Range"
+msgstr "Rentang Nomor Kursi"
+
+#. module: cinema_management
+#: model:ir.model,name:cinema_management.model_cinema_booking_wizard
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_booking_wizard_form
+msgid "Book Cinema Tickets"
+msgstr "Pesan Tiket Bioskop"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_booking_wizard_form
+msgid "Select Desired Seats"
+msgstr "Klik Kursi yang Diinginkan"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_cinema_booking_wizard_form
+msgid "Confirm & Issue Invoice"
+msgstr "Konfirmasi & Terbitkan Invoice"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_move_form_cinema_inherit
+msgid "Print Cinema Tickets"
+msgstr "Cetak Tiket Bioskop"
+
+#. module: cinema_management
+#: model_terms:ir.ui.view,arch_db:cinema_management.view_move_form_cinema_inherit
+#: model:ir.model.fields,field_description:cinema_management.field_account_move__ticket_ids
+msgid "Cinema Tickets"
+msgstr "Tiket Bioskop"

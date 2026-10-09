@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kanban View -->
+    <record id="view_cinema_movie_kanban" model="ir.ui.view">
+        <field name="name">cinema.movie.kanban</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <kanban sample="1" default_order="release_date desc, id desc">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="poster"/>
+                <field name="age_rating"/>
+                <field name="state"/>
+                <field name="duration"/>
+                <field name="duration_display"/>
+                <field name="genre_ids"/>
+                <field name="showtime_count"/>
+                <templates>
+                    <t t-name="card" class="d-flex flex-row p-2 gap-3">
+                        <aside class="col-4 col-md-3 p-0 text-center">
+                            <field name="poster" widget="image" options="{'img_class': 'w-100 rounded border object-fit-cover shadow-sm', 'size': [110, 150]}"/>
+                        </aside>
+                        <main class="col-8 col-md-9 d-flex flex-column justify-content-between p-0">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                    <h5 class="fw-bold mb-0 text-truncate">
+                                        <field name="name"/>
+                                    </h5>
+                                    <field name="age_rating" widget="badge"
+                                           decoration-success="age_rating == 'SU'"
+                                           decoration-info="age_rating == '13+'"
+                                           decoration-warning="age_rating == '17+'"
+                                           decoration-danger="age_rating == '21+'"/>
+                                </div>
+                                <div class="mb-2">
+                                    <field name="genre_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </div>
+                                <div class="small text-muted mb-1">
+                                    <i class="fa fa-clock-o me-1"/>
+                                    <field name="duration_display"/>
+                                    <span class="text-secondary">(<field name="duration"/> Min)</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <field name="state" widget="badge" 
+                                       decoration-success="state == 'now_playing'" 
+                                       decoration-warning="state == 'coming_soon'" 
+                                       decoration-info="state == 'draft'"
+                                       decoration-muted="state == 'archived'"/>
+                                <span class="badge text-bg-light border small">
+                                    <i class="fa fa-film me-1 text-primary"/>
+                                    <field name="showtime_count"/> Showtimes
+                                </span>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- List / Tree View -->
+    <record id="view_cinema_movie_tree" model="ir.ui.view">
+        <field name="name">cinema.movie.tree</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <list string="Movies" decoration-info="state == 'now_playing'" decoration-muted="state == 'archived'">
+                <field name="name"/>
+                <field name="genre_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="duration"/>
+                <field name="duration_display"/>
+                <field name="age_rating"/>
+                <field name="release_date"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'now_playing'" 
+                       decoration-warning="state == 'coming_soon'" 
+                       decoration-info="state == 'draft'"/>
+                <field name="showtime_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_cinema_movie_form" model="ir.ui.view">
+        <field name="name">cinema.movie.form</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <form string="Cinema Movie">
+                <header>
+                    <button name="action_set_now_playing" string="Set Now Playing" type="object" class="oe_highlight" invisible="state == 'now_playing'"/>
+                    <button name="action_set_coming_soon" string="Set Coming Soon" type="object" invisible="state == 'coming_soon'"/>
+                    <button name="action_set_archived" string="Archive" type="object" invisible="state == 'archived'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,coming_soon,now_playing,archived"/>
+                </header>
+                <sheet>
+                    <field name="poster" widget="image" class="oe_avatar" options="{'preview_image': 'poster', 'size': [120, 160]}"/>
+                    <div class="oe_title">
+                        <label for="name" string="Movie Title"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Avatar: The Way of Water"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Screening Information">
+                            <label for="duration" string="Movie Duration"/>
+                            <div class="d-flex align-items-baseline">
+                                <field name="duration" class="oe_inline"/>
+                                <span class="ms-1 me-2 text-muted">Minutes</span>
+                                <span class="badge text-bg-info text-wrap">
+                                    <field name="duration_display" readonly="1"/>
+                                </span>
+                            </div>
+                            <field name="age_rating"/>
+                            <field name="genre_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': False}" placeholder="Select genres..."/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Release Period">
+                            <field name="release_date"/>
+                            <field name="end_date"/>
+                            <field name="director"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Synopsis &amp; Casts">
+                            <group>
+                                <field name="casts" placeholder="Main casts / actors..."/>
+                                <field name="synopsis" placeholder="Short movie synopsis / storyline..."/>
+                            </group>
+                        </page>
+                        <page string="Showtimes">
+                            <field name="showtime_ids">
+                                <list editable="bottom">
+                                    <field name="hall_id"/>
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                    <field name="price"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_cinema_movie_search" model="ir.ui.view">
+        <field name="name">cinema.movie.search</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <search string="Search Movies">
+                <field name="name" string="Movie Title"/>
+                <field name="director"/>
+                <field name="genre_ids"/>
+                <separator/>
+                <filter name="filter_now_playing" string="Now Playing" domain="[('state', '=', 'now_playing')]"/>
+                <filter name="filter_coming_soon" string="Coming Soon" domain="[('state', '=', 'coming_soon')]"/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_archived" string="Archived" domain="[('state', '=', 'archived')]"/>
+                <group>
+                    <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_age_rating" string="Age Rating" context="{'group_by': 'age_rating'}"/>
+                    <filter name="group_by_release_date" string="Release Date" context="{'group_by': 'release_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+    <record id="action_cinema_movie" model="ir.actions.act_window">
+        <field name="name">Movies</field>
+        <field name="res_model">cinema.movie</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_cinema_movie_search"/>
+        <field name="context">{'search_default_filter_now_playing': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first cinema movie!
+            </p>
+            <p>
+                Manage movie titles, posters, duration, age ratings, and showtimes.
+            </p>
+        </field>
+    </record>
+</odoo>

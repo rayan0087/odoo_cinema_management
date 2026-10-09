@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-level Menu -->
+    <menuitem id="menu_cinema_root" 
+              name="Cinema" 
+              sequence="20" 
+              web_icon="cinema_management,static/description/icon.png"/>
+
+    <!-- Operational Submenus -->
+    <menuitem id="menu_cinema_movies" 
+              name="Movies" 
+              parent="menu_cinema_root" 
+              action="action_cinema_movie" 
+              sequence="10"/>
+
+    <menuitem id="menu_cinema_showtimes" 
+              name="Showtimes" 
+              parent="menu_cinema_root" 
+              action="action_cinema_showtime" 
+              sequence="20"/>
+
+    <menuitem id="menu_cinema_tickets" 
+              name="Sold Tickets" 
+              parent="menu_cinema_root" 
+              action="action_cinema_ticket" 
+              sequence="30"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_cinema_config" 
+              name="Configuration" 
+              parent="menu_cinema_root" 
+              sequence="90"/>
+
+    <menuitem id="menu_cinema_halls" 
+              name="Master Studios" 
+              parent="menu_cinema_config" 
+              action="action_cinema_hall" 
+              sequence="10"/>
+
+    <menuitem id="menu_cinema_genres" 
+              name="Movie Genres" 
+              parent="menu_cinema_config" 
+              action="action_cinema_genre" 
+              sequence="20"/>
+
+    <!-- Actions URL Menuju Web Controller Mandiri -->
+    <record id="action_cinema_movies_web_url" model="ir.actions.act_url">
+        <field name="name">Now Playing Display</field>
+        <field name="url">/movies</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_cinema_kiosk_url" model="ir.actions.act_url">
+        <field name="name">Ticket Booking (Kiosk)</field>
+        <field name="url">/cinema/booking</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Parent Menu Layanan Web & Display Kiosk (Urutan Paling Akhir: sequence 100) -->
+    <menuitem id="menu_cinema_web_portal" 
+              name="Web &amp; Kiosk Services" 
+              parent="menu_cinema_root" 
+              sequence="100"/>
+
+    <menuitem id="menu_cinema_now_playing_display" 
+              name="Now Playing Display" 
+              parent="menu_cinema_web_portal" 
+              action="action_cinema_movies_web_url" 
+              sequence="10"/>
+
+    <menuitem id="menu_cinema_kiosk" 
+              name="Cinema Ticket Booking (Kiosk)" 
+              parent="menu_cinema_web_portal" 
+              action="action_cinema_kiosk_url" 
+              sequence="20"/>
+</odoo>

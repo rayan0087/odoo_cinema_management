@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List / Tree View -->
+    <record id="view_cinema_hall_tree" model="ir.ui.view">
+        <field name="name">cinema.hall.tree</field>
+        <field name="model">cinema.hall</field>
+        <field name="arch" type="xml">
+            <list string="Cinema Studios">
+                <field name="name"/>
+                <field name="hall_type" widget="badge"/>
+                <field name="screen_position"/>
+                <field name="total_seats"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_cinema_hall_form" model="ir.ui.view">
+        <field name="name">cinema.hall.form</field>
+        <field name="model">cinema.hall</field>
+        <field name="arch" type="xml">
+            <form string="Cinema Studio">
+                <header>
+                    <button name="action_open_generate_seats_wizard" 
+                            string="Generate Seats Automatically" 
+                            type="object" 
+                            class="oe_highlight" 
+                            />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Studio Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Studio 1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Studio Configuration">
+                            <field name="hall_type"/>
+                            <field name="total_seats"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Screen Configuration">
+                            <field name="screen_position" widget="radio"/>
+                            <field name="screen_label"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Studio Layout Preview">
+                            <field name="layout_preview_html" widget="html" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="Seat Positions &amp; List">
+                            <field name="seat_ids">
+                                <list editable="bottom">
+                                    <field name="row" string="Row"/>
+                                    <field name="number" string="Number"/>
+                                    <field name="col_index" string="Column Position"/>
+                                    <field name="name" string="Seat Code" readonly="1"/>
+                                    <field name="seat_type" string="Seat Type"/>
+                                    <field name="active" string="Active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_cinema_hall" model="ir.actions.act_window">
+        <field name="name">Master Studios</field>
+        <field name="res_model">cinema.hall</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
